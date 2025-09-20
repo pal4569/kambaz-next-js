@@ -1,3 +1,5 @@
+"use client"; // Without this line, the button would cause errors
+
 export default function Lab1() {
   return (
     <div id="wd-lab1">
@@ -137,13 +139,11 @@ export default function Lab1() {
           <textarea id="wd-textarea" cols={30} rows={10}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>
         </form>
         <h5 id="wd-buttons">Buttons</h5>
-        {/*
         <button type="button"
                 onClick={() => alert("Life is Good!")}
                 id="wd-all-good">
           Hello World!
         </button>
-        */}
         <h5 id="wd-radio-buttons">Radio buttons</h5>
 
         <label>Favorite movie genre:</label><br />
@@ -161,6 +161,21 @@ export default function Lab1() {
         <label htmlFor="wd-radio-fantasy">Fantasy</label>
       </div>
       <h4 id="wd-dropdowns">Dropdowns</h4>
+      
+      <h5 id="wd-checkboxes">Checkboxes</h5>
+      <label>Favorite movie genre:</label><br/>
+
+      <input type="checkbox" name="check-genre" id="wd-chkbox-comedy"/>
+      <label htmlFor="wd-chkbox-comedy">Comedy</label><br/>
+
+      <input type="checkbox" name="check-genre" id="wd-chkbox-drama"/>
+      <label htmlFor="wd-chkbox-drama">Drama</label><br/>
+
+      <input type="checkbox" name="check-genre" id="wd-chkbox-scifi"/>
+      <label htmlFor="wd-chkbox-scifi">Science Fiction</label><br/>
+
+      <input type="checkbox" name="check-genre" id="wd-chkbox-fantasy"/>
+      <label htmlFor="wd-chkbox-fantasy">Fantasy</label>
 
       <h5>Select one</h5>
       <label  htmlFor="wd-select-one-genre"> Favorite movie genre: </label><br/>
