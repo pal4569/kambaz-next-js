@@ -1,9 +1,18 @@
-
+import './index.css'
+import "bootstrap/dist/css/bootstrap.min.css";
 import ForegroundColors from "./ForegroundColors";
 import BackgroundColors from "./BackgroundColors";
 import Borders from "./Borders";
 import Padding from "./Padding";
 import Margins from "./Margins";
+import Corners from "./Corner";
+import Dimensions from "./Dimensions";
+import Positions from './Positions';
+import Zindex from './Zindex';
+import Float from './Float';
+import GridLayout from './GridLayout';
+import Flex from './Flex';
+import ReactIcons from './ReactIcons';
 
 export default function Lab2() {
   return (
@@ -14,7 +23,7 @@ export default function Lab2() {
           Selectors can be combined to refer elements in particular
           places in the document
           <p className="wd-selector-3">
-            This paragraph's red background is referenced as
+            This paragraph&apos;s red background is referenced as
             <br />
             .selector-2 .selector3<br />
             meaning the descendant of some ancestor.<br />
@@ -31,5 +40,13 @@ export default function Lab2() {
       <Borders />
       <Padding />
       <Margins />
+      <Corners />
+      <Dimensions />
+      <Positions />
+      <Zindex />
+      <Float />
+      <GridLayout />
+      <Flex />
+      <ReactIcons />
     </div>
 );}
