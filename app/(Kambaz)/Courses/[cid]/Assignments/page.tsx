@@ -5,7 +5,7 @@ import { FaFilePen } from "react-icons/fa6";
 import AssignmentRightButtons from "../Modules/AssignmentRightButtons";
 import { FaSearch } from "react-icons/fa";
 
-export default function Assignments() {
+export default function Assignment() {
   return (
     <div 
       id="wd-assignments">
