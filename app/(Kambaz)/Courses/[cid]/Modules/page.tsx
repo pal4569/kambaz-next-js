@@ -7,14 +7,6 @@ export default function Modules() {
   return (
     <div>
       <div>
-        <button>Collapse All</button> 
-        <button>View Progress</button> 
-        <select>
-          <option value="PublishAll">Publish All</option>
-        </select>
-        <button>+ Module</button>
-      </div>
-      <div>
         <ModulesControls /><br /><br /><br /><br />
         <ListGroup className="rounded-0" id="wd-modules">
           <ListGroupItem className="wd-module p-0 mb-5 fs-5 border-gray">
