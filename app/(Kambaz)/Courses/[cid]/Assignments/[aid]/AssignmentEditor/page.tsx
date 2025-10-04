@@ -106,8 +106,8 @@ export default function AssignmentEditor() {
         </tr>
         <tr>
           <td></td>
-          <td align="left"><text>Available</text></td>
-          <td align="left"><text>Until</text></td>
+          <td align="left"><span>Available</span></td>
+          <td align="left"><span>Until</span></td>
         </tr>
         <tr>
           <td></td>
