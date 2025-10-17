@@ -3,6 +3,7 @@ import CourseNavigation from "./Navigation";
 import { FaAlignJustify } from "react-icons/fa";
 import db from "../../Database";
 import Course from '../../Models/Course';
+import Breadcrumb from './Breadcrumb';
 
 export default async function CoursesLayout(
   { children, params }: Readonly<{ children: ReactNode; params: Promise<{ cid: string }> }>) {
@@ -13,7 +14,9 @@ export default async function CoursesLayout(
     <div id="wd-courses">
       <h2 className="text-danger">
           <FaAlignJustify className="me-4 fs-4 mb-1" />
-          {course?.name} </h2> <hr />
+          <Breadcrumb course={course} />
+        </h2> 
+        <hr />
       <div className="d-flex">
         <div className="d-none d-md-block">
           <CourseNavigation />
