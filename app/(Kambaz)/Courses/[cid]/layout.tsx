@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import CourseNavigation from "./Navigation";
 import { FaAlignJustify } from "react-icons/fa";
 import db from "../../Database";
-import Course from '../../types';
+import Course from '../../Models/Course';
 
 export default async function CoursesLayout(
   { children, params }: Readonly<{ children: ReactNode; params: Promise<{ cid: string }> }>) {
