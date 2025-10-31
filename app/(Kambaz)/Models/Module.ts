@@ -5,4 +5,5 @@ export default interface Module {
   course: string;
   name: string;
   lessons?: Lesson[];
+  editing?: boolean;
 }

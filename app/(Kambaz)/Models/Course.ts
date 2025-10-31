@@ -8,4 +8,5 @@ export default interface Course {
   credits: number;
   description: string;
   author?: string;
+  image?: string;
 }
