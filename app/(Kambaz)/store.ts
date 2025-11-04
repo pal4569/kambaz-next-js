@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import coursesReducer from "./Courses/reducer";
 import modulesReducer from "./Courses/[cid]/Modules/reducer";
 import accountReducer from "./Account/reducer";
+import assignmentReducer from "./Courses/[cid]/Assignments/reducer";
 import todosReducer from "../Labs/Lab4/ReduxExamples/todos/todosReducer";
 import counterReducer from "../Labs/Lab4/ReduxExamples/CounterRedux/counterReducer";
 import addReducer from "../Labs/Lab4/ReduxExamples/AddRedux/addReducer";
@@ -16,6 +17,7 @@ export const store = configureStore({
     counterReducer,
     addReducer,
     helloReducer,
+    assignmentReducer,
     },
 });
 

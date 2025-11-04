@@ -1,5 +1,5 @@
 "use client"
-import { ListGroup, ListGroupItem } from "react-bootstrap";
+import { Button, FormControl, ListGroup, ListGroupItem } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
 import AssignmentControlButtons from "../Modules/AssignmentControlButtons";
 import { FaFilePen } from "react-icons/fa6";
@@ -7,12 +7,16 @@ import AssignmentRightButtons from "../Modules/AssignmentRightButtons";
 import { FaSearch } from "react-icons/fa";
 import { useParams } from "next/navigation";
 import AssignmentType from "../../../Models/Assignment";
-import db from "../../../Database";
+import { useAppSelector } from "@/app/(Kambaz)/hooks";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { editAssignment, updateAssignment } from "./reducer";
 
 export default function Assignment() {
-  const { cid } = useParams();
-  const assignments = db.assignments;
-  console.log(assignments);
+  const { cid } = useParams<{ cid: string }>();
+  const { assignments } = useAppSelector((state) => state.assignmentReducer);
+  const dispatch = useDispatch();
+  const [assignmentName, setAssignmentName] = useState("");
   return (
     <div id="wd-assignments">
       <div className="position-relative d-inline-block">
@@ -47,10 +51,35 @@ export default function Assignment() {
               .map((assignment: AssignmentType) => (
                 <ListGroupItem
                   key={assignment._id}
-                  className="wd-lesson p-3 ps-1"
+                  className="wd-assignment p-0 mb-4 fs-5 border-gray"
                 >
                   <BsGripVertical className="me-3 mb-5 fs-3" /> 
                   <FaFilePen className="text-success me-4 mb-5" /> 
+                {!assignment.editing}
+                {assignment.editing && (
+                  <FormControl
+                    className="w-50 d-inline-block"
+                    defaultValue={assignment.title}
+                    onChange={(e) =>
+                      dispatch(
+                        updateAssignment({
+                          ...assignment,
+                          title: e.target.value,
+                        })
+                      )
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        dispatch(
+                          updateAssignment({
+                            ...assignment,
+                            editing: false,
+                          })
+                        );
+                      }
+                    }}
+                  />
+                )}
                   <div style={{ display: "inline-block" }} className="ms-4 mb-8">
                     <b className="fs-4">{assignment.title}</b>
                     <div>
@@ -64,7 +93,7 @@ export default function Assignment() {
                       <span> placeholder </span>
                     </div>
                   </div>
-                  <AssignmentRightButtons /> 
+                  <AssignmentRightButtons aid={assignment._id}/> 
                 </ListGroupItem>
               ))}
             </ListGroup>
@@ -73,3 +102,8 @@ export default function Assignment() {
       </ListGroup>
     </div>
 );}
+
+/*
+
+ */
+

@@ -1,128 +1,140 @@
+"use client";
+import { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import { useRouter, useParams } from "next/navigation";
+import { v4 as uuidv4 } from "uuid";
+import { addAssignment, updateAssignment } from "../../reducer"; // adjust path
+import { useAppDispatch } from "@/app/(Kambaz)/hooks";
+import Assignment from "@/app/(Kambaz)/Models/Assignment";
+import db from "../../../../../Database/"
+
 export default function AssignmentEditor() {
+  const { cid, aid } = useParams<{ cid: string; aid: string }>();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  const existing = db.assignments.find(a => a._id === aid);
+  console.log(existing);
+
+  const [form, setForm] = useState<Assignment>(
+    (existing ??
+      {
+        _id: aid as string,
+        title: "",
+        course: cid as string,
+        description: "",
+        points: 0,
+        dueDate: "",
+        availableFrom: "",
+        availableUntil: "",
+        editing: false,
+      }) as Assignment
+  );
+
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  const handleSave = () => {
+    if (existing) {
+      dispatch(
+        updateAssignment({
+          ...form,
+          _id: existing._id, 
+          course: cid as string,
+        })
+      );
+    } else {
+      dispatch(
+        addAssignment({
+          _id: uuidv4(),
+          title: form.title,
+          description: form.description,
+          points: Number(form.points),
+          dueDate: form.dueDate,
+          availableFrom: form.availableFrom,
+          availableUntil: form.availableUntil,
+          course: cid as string,
+          editing: false,
+        })
+      );
+    }
+
+    router.push(`/Courses/${cid}/Assignments`);
+  };
+
   return (
-    <div id="wd-assignments-editor">
-      <label htmlFor="wd-name">Assignment Name</label><br />
-      <input id="wd-name" defaultValue="A1 - ENV + HTML" /><br /><br />
-      <textarea 
-        id="wd-description"
-        defaultValue={`The assignment is available online Submit a link to the landing page of your Web application running on Netlify. The landing page should include the following: Your full name and section Links to each of the lab assignments Link to the Kanbas application Links to all relevant source code repositories The Kanbas application should include a link to navigate back to the landing page.`}>
-      </textarea>
-      <br />
-      <br />
-      <table align="left">
-        <tbody>
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-points">Points</label>
-            </td>
-            <td align="left">
-              <input id="wd-points" defaultValue={100} />
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-group">Assignment Group</label>
-            </td>
-            <td>
-              <select id="wd-group">
-                <option>Assignment Group</option>
-              </select>
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-display-grade-as">Display Grade As</label>
-            </td>
-            <td>
-              <select id="wd-group">
-                <option>Percentage</option>
-              </select>
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-submission-type">Submission Type</label>
-            </td>
-            <td>
-              <select id="wd-group">
-                <option>Online</option>
-              </select>
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><label>Online Entry Options</label></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-              <input type="checkbox" id="wd-text-entry" />
-              <label htmlFor="wd-text-entry">Text Entry</label><br />
+    <div className="container mt-4" id="wd-assignment-editor">
+      <h2>{existing ? existing.title : "New Assignment"}</h2>
+      <Form>
+        <Form.Group className="mb-3">
+          <Form.Label>Name</Form.Label>
+          <Form.Control name="title" value={form.title} onChange={handleChange} />
+        </Form.Group>
 
-              <input type="checkbox" id="wd-website-url" />
-              <label htmlFor="wd-website-url">Website URL</label><br />
+        <Form.Group className="mb-3">
+          <Form.Label>Description</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+          />
+        </Form.Group>
 
-              <input type="checkbox" id="wd-media-recordings" />
-              <label htmlFor="wd-media-recordings">Media Recordings</label><br />
+        <Form.Group className="mb-3">
+          <Form.Label>Points</Form.Label>
+          <Form.Control
+            type="number"
+            name="points"
+            value={form.points}
+            onChange={handleChange}
+          />
+        </Form.Group>
 
-              <input type="checkbox" id="wd-student-annotation" />
-              <label htmlFor="wd-student-annotation">Student Annotation</label><br />
+        <Form.Group className="mb-3">
+          <Form.Label>Due Date</Form.Label>
+          <Form.Control
+            type="date"
+            name="dueDate"
+            value={form.dueDate}
+            onChange={handleChange}
+          />
+        </Form.Group>
 
-              <input type="checkbox" id="wd-file-upload" />
-              <label htmlFor="wd-file-upload">File Uploads</label>
-            </td>
-            <td></td>
-          </tr>
-        <tr>
-          <td></td>
-          <td align="left">Assign to</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>
-              <input id="wd-assign-to" defaultValue={"Everyone"} />
-          </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>
-              <label htmlFor="wd-group">Due</label>
-          </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>
-            <input type="date" defaultValue="2024-05-13" id="wd-due-date"/>
-          </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td align="left"><span>Available</span></td>
-          <td align="left"><span>Until</span></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><input type="date" id="wd-available-from" defaultValue="2024-05-06" /></td>
-          <td><input type="date" id="wd-available-until" defaultValue="2024-05-20" /></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <button type="button">Cancel</button>
-            <button type="submit">Save</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+        <Form.Group className="mb-3">
+          <Form.Label>Available From</Form.Label>
+          <Form.Control
+            type="date"
+            name="availableFrom"
+            value={form.availableFrom}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Available Until</Form.Label>
+          <Form.Control
+            type="date"
+            name="availableUntil"
+            value={form.availableUntil}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <div className="d-flex gap-2 mt-3">
+          <Button variant="secondary" onClick={() => router.push("/Courses/${cid}/Assignments")}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleSave}>
+            Save
+          </Button>
+        </div>
+      </Form>
     </div>
-);}
+  );
+}
