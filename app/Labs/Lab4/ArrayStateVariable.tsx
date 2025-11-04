@@ -1,7 +1,7 @@
 import { useAppSelector } from "@/app/(Kambaz)/hooks";
 import { useState } from "react";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import Todo from "../../(Kambaz)/Models/Todo"
 
 export default function ArrayStateVariable() {
     const [array, setArray] = useState([1, 2, 3, 4, 5]);
@@ -16,7 +16,7 @@ export default function ArrayStateVariable() {
   <div id="wd-array-state-variables">
    <h2>Array State Variable</h2>
     <ListGroup>
-        {todos.map((todo: any) => (
+        {todos.map((todo: Todo) => (
             <ListGroupItem key={todo.id}>
         {todo.title}
             </ListGroupItem>

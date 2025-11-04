@@ -1,6 +1,9 @@
+"use client";
+
 import { useDispatch } from "react-redux";
 import { increment, decrement } from "./counterReducer";
 import { useAppSelector } from "@/app/(Kambaz)/hooks";
+
 export default function CounterRedux() {
   const { count } = useAppSelector((state) => state.counterReducer);
   const dispatch = useDispatch();

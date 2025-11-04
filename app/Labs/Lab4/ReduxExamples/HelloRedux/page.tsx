@@ -1,5 +1,6 @@
+"use client";
+
 import { useAppSelector } from "@/app/(Kambaz)/hooks";
-import helloReducer from "./helloReducer";
 
 export default function HelloRedux() {
   const { message } = useAppSelector((state) => state.helloReducer);

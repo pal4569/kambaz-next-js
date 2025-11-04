@@ -5,8 +5,9 @@ import accountReducer from "./Account/reducer";
 import todosReducer from "../Labs/Lab4/ReduxExamples/todos/todosReducer";
 import counterReducer from "../Labs/Lab4/ReduxExamples/CounterRedux/counterReducer";
 import addReducer from "../Labs/Lab4/ReduxExamples/AddRedux/addReducer";
+import helloReducer from "../Labs/Lab4/ReduxExamples/HelloRedux/helloReducer";
 
-const store = configureStore({
+export const store = configureStore({
  reducer: { 
     coursesReducer,
     modulesReducer,
@@ -14,9 +15,9 @@ const store = configureStore({
     todosReducer,
     counterReducer,
     addReducer,
+    helloReducer,
     },
 });
-export default store;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

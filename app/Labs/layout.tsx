@@ -1,19 +1,26 @@
+"use client";
+
 import { ReactNode } from "react";
 import TOC from "./TOC";
+import { Provider } from "react-redux";
+import { store } from "../(Kambaz)/store";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default function LabsLayout({
- children,
+export default function KambazLayout({
+  children,
 }: Readonly<{ children: ReactNode }>) {
- return (
-   <table>
-     <tbody>
-       <tr>
-         <td valign="top" width="100px">
-           <TOC />
-         </td>
-         <td valign="top">{children}</td>
-       </tr>
-     </tbody>
-   </table>
-);}
+  return (
+    <Provider store={store}>
+      <table>
+        <tbody>
+          <tr>
+            <td valign="top" width="100px">
+              <TOC />
+            </td>
+            <td valign="top">{children}</td>
+          </tr>
+        </tbody>
+      </table>
+    </Provider>
+  );
+}
