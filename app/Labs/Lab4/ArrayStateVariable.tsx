@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/app/(Kambaz)/hooks";
 import { useState } from "react";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -10,7 +11,7 @@ export default function ArrayStateVariable() {
     const deleteElement = (index: number) => {
     setArray(array.filter((item, i) => i !== index));
     };
-    const { todos } = useSelector((state: any) => state.todosReducer)
+    const { todos } = useAppSelector((state) => state.todosReducer);
  return (
   <div id="wd-array-state-variables">
    <h2>Array State Variable</h2>

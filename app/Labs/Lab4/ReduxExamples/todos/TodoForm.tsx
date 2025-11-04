@@ -1,11 +1,12 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addTodo, updateTodo, setTodo } from "./todosReducer";
 import { ListGroupItem, Button, FormControl } from "react-bootstrap";
+import { useAppSelector } from "@/app/(Kambaz)/hooks";
 
 export default function TodoForm(
 ) {
-  const { todo } = useSelector((state: any) => state.todosReducer);
+  const { todo } = useAppSelector((state) => state.todosReducer);
   const dispatch = useDispatch();
   return (
     <ListGroupItem>

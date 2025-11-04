@@ -1,7 +1,8 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { increment, decrement } from "./counterReducer";
+import { useAppSelector } from "@/app/(Kambaz)/hooks";
 export default function CounterRedux() {
-  const { count } = useSelector((state: any) => state.counterReducer);
+  const { count } = useAppSelector((state) => state.counterReducer);
   const dispatch = useDispatch();
   return (
     <div id="wd-counter-redux">

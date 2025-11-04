@@ -1,11 +1,15 @@
-import { useSelector, useDispatch } from "react-redux";
+"use client"
+
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { add } from "./addReducer";
 import { FormControl, Button } from "react-bootstrap";
+import { useAppSelector } from "@/app/(Kambaz)/hooks";
+
 export default function AddRedux() {
   const [a, setA] = useState(12);
   const [b, setB] = useState(23);
-  const { sum } = useSelector((state: any) => state.addReducer);
+  const { sum } = useAppSelector((state) => state.addReducer);
   const dispatch = useDispatch();
   return (
     <div className="w-25" id="wd-add-redux">

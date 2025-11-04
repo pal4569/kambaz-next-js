@@ -9,7 +9,11 @@ import { FormControl, Button } from "react-bootstrap";
 import User from "../../Models/User";
 
 export default function Signin() {
- const [credentials, setCredentials] = useState<any>({});
+ const [credentials, setCredentials] = useState<Partial<User>>({
+  username: "",
+  password: "",
+ });
+
  const dispatch = useDispatch();
  const signin = () => {
    const user = db.users.find(

@@ -1,14 +1,14 @@
 "use client";
 import { ReactNode, useState } from "react";
 import CourseNavigation from "./Navigation";
-import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import { FaAlignJustify } from "react-icons/fa6";
 import Course from "../../Models/Course"
+import { useAppSelector } from "../../hooks";
 
 export default function CoursesLayout({ children }: { children: ReactNode }) {
  const { cid } = useParams();
- const { courses } = useSelector((state: any) => state.coursesReducer);
+ const { courses } = useAppSelector((state) => state.coursesReducer);
  const course = courses.find((course: Course) => course._id === cid);
  const [showNav, setShowNav] = useState(true);
  const toggleSidebar = () => setShowNav((prev) => !prev);

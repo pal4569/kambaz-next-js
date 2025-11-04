@@ -1,18 +1,20 @@
 import React from "react";
 import TodoForm from "./TodoForm";
 import TodoItem from "./TodoItem";
-import { useSelector } from "react-redux";
 import { ListGroup } from "react-bootstrap";
+import { useAppSelector } from "@/app/(Kambaz)/hooks";
+import Todo from "../../../../(Kambaz)/Models/Todo";
+
 export default function TodoList() {
-  const { todos } = useSelector((state: any) => state.todosReducer);
+  const { todos } = useAppSelector((state) => state.todosReducer);
   return (
     <div id="wd-todo-list-redux">
       <h2>Todo List</h2>
       <ListGroup>
         <TodoForm />
-        {todos.map((todo: any) => (
+        {todos.map((todo: Todo) => (
           <TodoItem 
-          key={todo} 
+          key={todo.id} 
           todo={todo}/>
         ))}
       </ListGroup>

@@ -10,11 +10,12 @@ import Lesson from '../../../Models/Lesson';
 import { useState } from "react";
 import { addModule, editModule, updateModule, deleteModule }
   from "./reducer";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector } from "@/app/(Kambaz)/hooks";
+import { useDispatch } from "react-redux";
 
 export default function Modules() {
   const { cid } = useParams<{ cid: string }>();
-  const { modules } = useSelector((state: any) => state.modulesReducer);
+  const { modules } = useAppSelector((state) => state.modulesReducer);
   const dispatch = useDispatch();
   const [moduleName, setModuleName] = useState("");
 

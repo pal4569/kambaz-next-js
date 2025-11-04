@@ -3,14 +3,15 @@ import { useState } from "react";
 import Link from "next/link";
 import { Row, Col, Card, CardImg, CardBody, CardTitle, CardText, Button, FormControl } from "react-bootstrap";
 import Course from "../Models/Course";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addNewCourse, deleteCourse, updateCourse } from "../Courses/reducer";
 import db from "../Database";
+import { useAppSelector } from "../hooks";
 
 export default function Dashboard() {
-  const { courses } = useSelector((state: any) => state.coursesReducer);
+  const { courses } = useAppSelector((state) => state.coursesReducer);
   const dispatch = useDispatch();
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { currentUser } = useAppSelector((state) => state.accountReducer);
   const { enrollments } = db;
   const [course, setCourse] = useState<Course>({
     _id: "0", name: "New Course", number: "New Number",
