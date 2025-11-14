@@ -28,6 +28,6 @@ export default function TOC() {
        <NavLink href="/" as={Link}>
          Kambaz </NavLink> </NavItem>
      <NavItem>
-       <NavLink href="https://github.com/pal4569">My GitHub</NavLink></NavItem>
+       <NavLink href="https://github.com/pal4569/kambaz-next-js">My GitHub</NavLink></NavItem>
    </Nav>
  );}
