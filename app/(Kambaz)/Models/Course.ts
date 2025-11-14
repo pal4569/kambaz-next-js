@@ -9,4 +9,5 @@ export default interface Course {
   description: string;
   author?: string;
   image?: string;
+  editing?: boolean;
 }

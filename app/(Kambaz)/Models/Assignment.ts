@@ -8,4 +8,5 @@ export default interface Assignment {
   availableFrom: string;
   availableUntil: string;
   editing: boolean;
+  completed?: boolean;
 }

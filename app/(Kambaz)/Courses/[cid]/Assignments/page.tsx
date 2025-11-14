@@ -1,22 +1,43 @@
 "use client"
-import { Button, FormControl, ListGroup, ListGroupItem } from "react-bootstrap";
+import { FormControl, ListGroup, ListGroupItem } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
-import AssignmentControlButtons from "../Modules/AssignmentControlButtons";
+import AssignmentControlButtons from "./AssignmentControlButtons";
 import { FaFilePen } from "react-icons/fa6";
-import AssignmentRightButtons from "../Modules/AssignmentRightButtons";
+import AssignmentRightButtons from "./AssignmentRightButtons";
 import { FaSearch } from "react-icons/fa";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import AssignmentType from "../../../Models/Assignment";
 import { useAppSelector } from "@/app/(Kambaz)/hooks";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { editAssignment, updateAssignment } from "./reducer";
+import { setAssignments, updateAssignment } from "./reducer";
+import * as client from "../../client";
+import type Assignment from "../../../Models/Assignment";
 
 export default function Assignment() {
   const { cid } = useParams<{ cid: string }>();
   const { assignments } = useAppSelector((state) => state.assignmentReducer);
   const dispatch = useDispatch();
-  const [assignmentName, setAssignmentName] = useState("");
+  const router = useRouter();
+  const onCreateAssignmentForCourse = async () => {
+    if (!cid) return;
+    router.push(`/Courses/${cid}/Assignments/new/AssignmentEditor`)
+  };
+  const onRemoveAssignment = (assignmentId: string) => {
+    (async () => {
+      await client.deleteAssignment(assignmentId);
+      dispatch(setAssignments(assignments.filter((a: Assignment) => a._id !== assignmentId)));
+    })();
+  };
+
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      const assignments = await client.findAssignmentsForCourse(cid);
+      dispatch(setAssignments(assignments));
+    };
+    fetchAssignments();
+  }, [cid]);
+
   return (
     <div id="wd-assignments">
       <div className="position-relative d-inline-block">
@@ -38,13 +59,15 @@ export default function Assignment() {
       <button 
         id="wd-add-assignment"
         className="btn btn-danger"
+        onClick={onCreateAssignmentForCourse}
       >
         + Assignment
       </button>
       <ListGroup className="rounded-0 mt-5" id="wd-modules">
         <ListGroupItem className="wd-module p-0 mb-5 fs-5 border-gray">
           <div className="wd-title p-3 ps-2 bg-secondary">
-            <BsGripVertical className="me-2 fs-3" /> ASSIGNMENTS <AssignmentControlButtons />
+            <BsGripVertical className="me-2 fs-3" /> ASSIGNMENTS 
+            <AssignmentControlButtons />
             <ListGroup className="wd-lessons rounded-0">
             {assignments
               .filter((assignment: AssignmentType) => assignment.course === cid)
@@ -93,7 +116,9 @@ export default function Assignment() {
                       <span> placeholder </span>
                     </div>
                   </div>
-                  <AssignmentRightButtons aid={assignment._id}/> 
+                  <AssignmentRightButtons 
+                    aid={assignment._id}
+                    deleteAssignment={onRemoveAssignment}/> 
                 </ListGroupItem>
               ))}
             </ListGroup>
@@ -102,8 +127,3 @@ export default function Assignment() {
       </ListGroup>
     </div>
 );}
-
-/*
-
- */
-

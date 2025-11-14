@@ -6,16 +6,23 @@ import { Button, FormControl } from "react-bootstrap";
 import User from "../../Models/User";
 import { useAppSelector } from "../../hooks";
 import { useDispatch } from "react-redux";
+import * as client from "../client";
 
 export default function Profile() {
- const [profile, setProfile] = useState<User>();
+ const [profile, setProfile] = useState<User | null>(null);
  const dispatch = useDispatch();
  const { currentUser } = useAppSelector((state) => state.accountReducer);
+  const updateProfile = async () => {
+    if (!profile) return;
+    const updatedProfile = await client.updateUser(profile);
+    dispatch(setCurrentUser(updatedProfile));
+  };
  const fetchProfile = () => {
    if (!currentUser) return redirect("/Account/Signin");
    setProfile(currentUser);
  };
- const signout = () => {
+ const signout = async () => {
+  await client.signout();
    dispatch(setCurrentUser(null));
    redirect("/Account/Signin");
  };
@@ -55,9 +62,14 @@ export default function Profile() {
            <option value="FACULTY">Faculty</option>{" "}
            <option value="STUDENT">Student</option>
          </select>
-         <Button onClick={signout} className="w-100 mb-2" id="wd-signout-btn">
-           Sign out
-         </Button>
+         <div>
+          <Button onClick={updateProfile} className="btn btn-primary w-100 mb-2"> 
+            Update 
+          </Button>
+          <Button onClick={signout} className="w-100 mb-2" id="wd-signout-btn">
+            Sign out
+          </Button>
+         </div>
        </div>
      )}
    </div>

@@ -7,6 +7,8 @@ import todosReducer from "../Labs/Lab4/ReduxExamples/todos/todosReducer";
 import counterReducer from "../Labs/Lab4/ReduxExamples/CounterRedux/counterReducer";
 import addReducer from "../Labs/Lab4/ReduxExamples/AddRedux/addReducer";
 import helloReducer from "../Labs/Lab4/ReduxExamples/HelloRedux/helloReducer";
+import enrollmentsReducer from "./Enrollments/reducer";
+
 
 export const store = configureStore({
  reducer: { 
@@ -18,6 +20,7 @@ export const store = configureStore({
     addReducer,
     helloReducer,
     assignmentReducer,
+    enrollmentsReducer,
     },
 });
 

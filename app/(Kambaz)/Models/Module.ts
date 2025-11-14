@@ -6,4 +6,5 @@ export default interface Module {
   name: string;
   lessons?: Lesson[];
   editing?: boolean;
+  children?: Module[];
 }

@@ -1,20 +1,19 @@
 "use client";
 
 import { IoEllipsisVertical } from "react-icons/io5";
-import GreenCheckmark from "./GreenCheckmark";
+import GreenCheckmark from "../Modules/GreenCheckmark";
 import { Button } from "react-bootstrap";
 import { useRouter, useParams } from "next/navigation";
-import { deleteAssignment } from "../Assignments/reducer";
-import { useDispatch } from "react-redux";
 
 export default function AssignmentRightButtons({
   aid,
+  deleteAssignment,
 }: {
   aid: string;
+  deleteAssignment: (assignmentId: string) => void;
 }) {
   const { cid } = useParams();
   const router = useRouter();
-  const dispatch = useDispatch();
 
   return (
     <div className="float-end">
@@ -33,7 +32,7 @@ export default function AssignmentRightButtons({
         onClick={(e) => {
           e.stopPropagation();
           if (window.confirm("Are you sure you want to delete this assignment?")) {
-            dispatch(deleteAssignment(aid));
+            deleteAssignment(aid);
           }
         }}
       >
