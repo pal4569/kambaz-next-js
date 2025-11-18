@@ -12,3 +12,8 @@ export default interface User {
     lastActivity: string;
     totalActivity: string;
 }
+
+export type CreateUserType = Omit<
+  User,
+  "_id" | "lastActivity" | "totalActivity" | "dob" | "loginId"
+>;
