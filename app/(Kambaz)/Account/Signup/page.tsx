@@ -6,10 +6,10 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { FormControl } from "react-bootstrap";
 import * as client from "../client";
-import User from "../../Models/User";
+import Credentials from "../../Models/Credentials";
 
 export default function Signup() {
-  const [user, setUser] = useState<User>({
+  const [user, setUser] = useState<Credentials>({
     username: "",
     password: "",
   });
