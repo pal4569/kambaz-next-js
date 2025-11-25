@@ -16,15 +16,17 @@ export default function Dashboard() {
   const { currentUser } = useAppSelector((state) => state.accountReducer);
   const [displayMode, setDisplayMode] = useState<string>("published");
   const [course, setCourse] = useState<Course>({
-    _id: "0", name: "New Course", number: "New Number",
-    startDate: "2023-09-10", endDate: "2023-12-15",
-    image: "/images/reactjs.jpg", description: "New Description",
-    department: "",
-    credits: 0
+    name: "New Course",
+    description: "New Description",
   });
+  const [editingCourse, setEditingCourse] = useState<Course | null>(null);
 
   const fetchCourses = useCallback(async () => {
     try {
+      if (!currentUser) {
+        const courses = await client.fetchAllCourses();
+        return dispatch(setCourses(courses));
+      }
       const courses = displayMode === "published"
         ? await client.findMyCourses()
         : await client.fetchAllCourses();
@@ -32,18 +34,19 @@ export default function Dashboard() {
     } catch (error) {
       console.error(error);
     }
-  }, [displayMode, dispatch]);
+  }, [displayMode, dispatch, currentUser]);
 
   useEffect(() => {
     fetchCourses();
   }, [displayMode, currentUser]);
 
   const fetchEnrollments = async () => {
-    try {
+    if (currentUser) {
       const enrollments = await client.fetchAllEnrollments()
       dispatch(setEnrollments(enrollments));
-    } catch (error) {
-      console.error(error);
+    }
+    else {
+      dispatch(setEnrollments([]));
     }
   };
 
@@ -57,13 +60,16 @@ export default function Dashboard() {
   };
 
   const onDeleteCourse = async (courseId: string) => {
+    console.log(courseId)
     await client.deleteCourse(courseId);
     fetchCourses();
   };
 
-  const onUpdateCourse = async (course: Course) => {
-    await client.updateCourse(course);
-    fetchCourses();
+  const onUpdateCourse = async (updated: Course) => {
+    if (updated) {
+      await client.updateCourse(updated);
+      fetchCourses();
+    }
   };
 
   function toggleEnrollments() {
@@ -73,7 +79,7 @@ export default function Dashboard() {
   const toggleEnroll = async (isEnrolled: boolean, courseId: string) => {
     if (isEnrolled) {
       await client.unenrollFromCourse(courseId);
-    } 
+    }
     else {
       await client.enrollInCourse(courseId);
     }
@@ -99,26 +105,66 @@ export default function Dashboard() {
       <FormControl
         value={course?.name ?? ""}
         className="mb-2"
-        onChange={(e) => setCourse({ ...course, name: e.target.value })}
+        onChange={(e) => {
+          const updated = { ...course, name: e.target.value };
+          setCourse(updated);
+          console.log(updated);
+        }}
       />
       <FormControl
         as="textarea"
         value={course?.description ?? ""}
         rows={3}
-        onChange={(e) => setCourse({ ...course, description: e.target.value })}
+        onChange={(e) => {
+          const updated = { ...course, description: e.target.value };
+          setCourse(updated);
+          console.log(updated);
+        }}
       />
       <hr />
       <h2 id="wd-dashboard-published">
-        {displayMode === "published" ? "Published Courses" : "All Courses"} ({courses.length})
+        {displayMode === "published" ? "Published Courses" : "All Courses"} ({courses.filter((course) => course && course._id).length})
       </h2>
       <hr />
       <div id="wd-dashboard-courses">
         <Row xs={1} md={5} className="g-4">
           {courses
+            .filter((course) => course && course._id)
             .map((course: Course, index: number) => (
             <Col key={index} className="wd-dashboard-course" style={{ width: "300px" }}>
-              <Card onClick={() => setCourse(course)}>
-                <Link href={`/Courses/${course._id}/Home`}
+              <Card>
+                {editingCourse && editingCourse._id === course._id && (
+                  <div>
+                    <FormControl
+                      value={editingCourse.name}
+                      onChange={(e) =>
+                        setEditingCourse({ 
+                          ...editingCourse, 
+                          name: e.target.value 
+                        })
+                      }
+                    />
+
+                    <FormControl
+                      as="textarea"
+                      value={editingCourse.description}
+                      onChange={(e) =>
+                        setEditingCourse({
+                          ...editingCourse,
+                          description: e.target.value,
+                        })
+                      }
+                    />
+
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => onUpdateCourse(editingCourse)}
+                    >
+                      Save
+                    </button>
+                  </div>
+                )}
+                <Link href={`/Courses/${course._id!}/Home`}
                       className="wd-dashboard-course-link text-decoration-none text-dark" >
                   <CardImg src="/images/reactjs.jpg" variant="top" width="100%" height={160} />
                   <CardBody className="card-body">
@@ -130,7 +176,7 @@ export default function Dashboard() {
                     <button className="btn btn-danger"
                             onClick={(event) => {
                               event.preventDefault();
-                              onDeleteCourse(course._id);
+                              onDeleteCourse(course._id!);
                             }} >
                       Delete
                     </button>
@@ -139,7 +185,7 @@ export default function Dashboard() {
                       onClick={(event) => {
                         event.preventDefault();
                         event.stopPropagation();
-                        onUpdateCourse(course);
+                        setEditingCourse({...course});
                       }}
                     >
                       Update
@@ -150,17 +196,17 @@ export default function Dashboard() {
                       <br />
                       <br />
                       {(() => {
-                        const isEnrolled = enrollments.some(
-                          (e) => e.user === currentUser?._id && e.course === course._id
-                        );
-
+                        const isEnrolled = Array.isArray(enrollments) &&
+                          enrollments.some(
+                            (e) => e.user === currentUser?._id && e.course === course._id
+                          );
                         return (
                           <button
                             className={`btn ${isEnrolled ? "btn-danger" : "btn-success"}`}
                             onClick={(event) => {
                               event.preventDefault();
                               event.stopPropagation();
-                              toggleEnroll(isEnrolled, course._id);
+                              toggleEnroll(isEnrolled, course._id!);
                             }}
                           >
                             {isEnrolled ? "Unenroll" : "Enroll"}

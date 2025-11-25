@@ -9,7 +9,9 @@ import { useAppSelector } from "../../hooks";
 export default function CoursesLayout({ children }: { children: ReactNode }) {
  const { cid } = useParams();
  const { courses } = useAppSelector((state) => state.coursesReducer);
- const course = courses.find((course: Course) => course._id === cid);
+ const course = courses.find(
+  (c: Course | null | undefined) => c && c._id === cid
+  );
  const [showNav, setShowNav] = useState(true);
  const toggleSidebar = () => setShowNav((prev) => !prev);
  

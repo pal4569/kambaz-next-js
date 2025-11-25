@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-import db from "../../../Database";
 import type Assignment from "../../../Models/Assignment";
 
-const initialState = {
-  assignments: db.assignments as Assignment[],
+interface AssignmentsState {
+  assignments: Assignment[];
+}
+
+const initialState: AssignmentsState = {
+  assignments: [],
 };
 
 const assignmentSlice = createSlice({

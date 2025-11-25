@@ -1,7 +1,7 @@
 import Lesson from "./Lesson";
 
 export default interface Module {
-  _id: string;
+  _id?: string;
   course: string;
   name: string;
   lessons?: Lesson[];

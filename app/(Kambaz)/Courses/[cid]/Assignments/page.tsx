@@ -19,10 +19,12 @@ export default function Assignment() {
   const { assignments } = useAppSelector((state) => state.assignmentReducer);
   const dispatch = useDispatch();
   const router = useRouter();
+
   const onCreateAssignmentForCourse = async () => {
     if (!cid) return;
     router.push(`/Courses/${cid}/Assignments/new/AssignmentEditor`)
   };
+
   const onRemoveAssignment = (assignmentId: string) => {
     (async () => {
       await client.deleteAssignment(assignmentId);
@@ -82,7 +84,7 @@ export default function Assignment() {
                 {assignment.editing && (
                   <FormControl
                     className="w-50 d-inline-block"
-                    defaultValue={assignment.title}
+                    value={assignment.title ?? ""}
                     onChange={(e) =>
                       dispatch(
                         updateAssignment({

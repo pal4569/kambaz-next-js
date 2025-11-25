@@ -94,7 +94,7 @@ export default function AssignmentEditor() {
             as="textarea"
             rows={3}
             name="description"
-            value={form.description}
+            value={form.description ?? ""}
             onChange={handleChange}
           />
         </Form.Group>
@@ -104,7 +104,7 @@ export default function AssignmentEditor() {
           <Form.Control
             type="number"
             name="points"
-            value={form.points}
+            value={form.points ?? 0}
             onChange={handleChange}
           />
         </Form.Group>
@@ -114,7 +114,7 @@ export default function AssignmentEditor() {
           <Form.Control
             type="date"
             name="dueDate"
-            value={form.dueDate}
+            value={form.dueDate ?? ""}
             onChange={handleChange}
           />
         </Form.Group>
@@ -124,7 +124,7 @@ export default function AssignmentEditor() {
           <Form.Control
             type="date"
             name="availableFrom"
-            value={form.availableFrom}
+            value={form.availableFrom ?? ""}
             onChange={handleChange}
           />
         </Form.Group>
@@ -134,7 +134,7 @@ export default function AssignmentEditor() {
           <Form.Control
             type="date"
             name="availableUntil"
-            value={form.availableUntil}
+            value={form.availableUntil ?? ""}
             onChange={handleChange}
           />
         </Form.Group>
