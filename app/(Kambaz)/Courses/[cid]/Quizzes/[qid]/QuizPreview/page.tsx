@@ -122,7 +122,7 @@ export default function QuizPreview() {
         const submission = {
             _id: uuidv4(),
             quizId: qid,
-            userId: currentUser._id,
+            userId: currentUser._id ?? "",
             submittedAt: new Date().toISOString(),
 
             score: score,

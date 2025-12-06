@@ -13,12 +13,15 @@ export default function PeopleTable({
   fetchUsers: () => void;
 }) {
   const [showDetails, setShowDetails] = useState(false);
-  const [showUserId, setShowUserId] = useState<string | null>(null);
+  const [showUserId, setShowUserId] = useState<string | null | undefined>(null);
+
+  if (!users) return (<h2>Loading</h2>);
+
   return (
     <div id="wd-people-table">
      {showDetails && (
        <PeopleDetails
-         uid={showUserId}
+         uid={showUserId ?? null}
          onClose={() => {
            setShowDetails(false);
            fetchUsers();
