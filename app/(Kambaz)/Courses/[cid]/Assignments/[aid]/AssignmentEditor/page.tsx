@@ -78,8 +78,6 @@ export default function AssignmentEditor() {
     router.push(`/Courses/${cid}/Assignments`);
   };
 
-
-
   return (
     <div className="container mt-4" id="wd-assignment-editor">
       <Form>

@@ -8,6 +8,8 @@ import counterReducer from "../Labs/Lab4/ReduxExamples/CounterRedux/counterReduc
 import addReducer from "../Labs/Lab4/ReduxExamples/AddRedux/addReducer";
 import helloReducer from "../Labs/Lab4/ReduxExamples/HelloRedux/helloReducer";
 import enrollmentsReducer from "./Enrollments/reducer";
+import quizReducer from "./Courses/[cid]/Quizzes/reducer";
+import quizSubmissionReducer from "./Courses/[cid]/Quizzes/[qid]/QuizSubmissions/reducer";
 
 
 export const store = configureStore({
@@ -21,6 +23,8 @@ export const store = configureStore({
     helloReducer,
     assignmentReducer,
     enrollmentsReducer,
+    quizReducer,
+    quizSubmissions: quizSubmissionReducer,
     },
 });
 
