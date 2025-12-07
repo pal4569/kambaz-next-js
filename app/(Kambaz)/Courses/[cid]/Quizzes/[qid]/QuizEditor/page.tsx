@@ -62,7 +62,14 @@ export default function QuizEditor() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+
+    let newValue: string | number | boolean = value;
+
+    if (name === "multipleAttempts") {
+      newValue = value === "true";
+    }
+
+    setForm({ ...form, [name]: newValue });
   };
 
   const handleSave = async () => {

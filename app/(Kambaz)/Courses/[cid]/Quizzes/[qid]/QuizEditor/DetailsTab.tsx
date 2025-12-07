@@ -107,6 +107,23 @@ export default function DetailsTab({ form, handleChange, handleSave, cid }: Deta
 
             <br />
 
+            {form.multipleAttempts && (
+                <>
+                    <Form.Group className="mt-3">
+                        <Form.Label>How Many Attempts</Form.Label>
+                        <Form.Control
+                            type="number"
+                            name="howManyAttempts"
+                            min={1}
+                            value={form.howManyAttempts ?? 1}
+                            onChange={handleChange}
+                        />
+                    </Form.Group>
+                    
+                    <br />
+                </>
+            )}
+
             <Form.Group>
                 <Form.Label>Show Correct Answers</Form.Label>
                 <Form.Select 

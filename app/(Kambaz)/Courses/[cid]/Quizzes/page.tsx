@@ -96,6 +96,15 @@ export default function Quizzes() {
         fetchQuizSubmissions();
     }, [currentUser?._id]);
 
+    async function handleTakeTest(quiz: Quiz) {
+        if (!currentUser?._id || !quiz._id) return;
+        const submissions = await client.findQuizSubmissionsForQuizForUser(currentUser?._id, quiz._id)
+        if (submissions < quiz.howManyAttempts) {
+            router.push(`/Courses/${cid}/Quizzes/${quiz._id}/QuizPreview`);
+        } else {
+            alert(`The maximum number of attempts for this assignment is ${quiz.howManyAttempts}.`);
+        }
+    }
 
     return (
         <div className="mt-3" style={{ width: "100%" }}>
@@ -185,7 +194,7 @@ export default function Quizzes() {
                                         className="fs-4"
                                         onClick={() => {
                                             if (currentUser?.role === "STUDENT") {
-                                                router.push(`/Courses/${cid}/Quizzes/${quiz._id}/QuizPreview`);
+                                                handleTakeTest(quiz);
                                             }
                                             else {
                                                 router.push(`/Courses/${cid}/Quizzes/${quiz._id}/QuizDetails`);

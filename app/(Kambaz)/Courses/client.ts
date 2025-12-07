@@ -181,3 +181,10 @@ export const deleteQuizSubmission = async (qsid: string) => {
   );
   return response.data;
 };
+
+export const findQuizSubmissionsForQuizForUser = async (uid: string, qid: string) => {
+  const response = await axiosWithCredentials.get(
+    `${SUBMISSIONS_API}/user/${uid}/quiz/${qid}`
+  );
+  return response.data;
+}
